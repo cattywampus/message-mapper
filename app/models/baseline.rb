@@ -1,0 +1,4 @@
+class Baseline < ApplicationRecord
+  belongs_to :product
+  has_many :messages
+end
