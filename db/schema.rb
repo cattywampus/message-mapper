@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160804015046) do
+ActiveRecord::Schema.define(version: 20160811011951) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,13 @@ ActiveRecord::Schema.define(version: 20160804015046) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["product_id"], name: "index_baselines_on_product_id", using: :btree
+  end
+
+  create_table "consumers", id: false, force: :cascade do |t|
+    t.integer "message_id"
+    t.integer "application_id"
+    t.index ["application_id"], name: "index_consumers_on_application_id", using: :btree
+    t.index ["message_id"], name: "index_consumers_on_message_id", using: :btree
   end
 
   create_table "messages", force: :cascade do |t|
@@ -57,6 +64,8 @@ ActiveRecord::Schema.define(version: 20160804015046) do
 
   add_foreign_key "applications", "baselines"
   add_foreign_key "baselines", "products"
+  add_foreign_key "consumers", "applications"
+  add_foreign_key "consumers", "messages"
   add_foreign_key "messages", "baselines"
   add_foreign_key "producers", "applications"
   add_foreign_key "producers", "messages"
