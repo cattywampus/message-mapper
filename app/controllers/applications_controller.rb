@@ -4,7 +4,8 @@ class ApplicationsController < ApplicationController
   # GET /applications
   # GET /applications.json
   def index
-    @applications = Application.all
+    @baseline = Baseline.find params[:baseline_id]
+    @applications = @baseline.applications
   end
 
   # GET /applications/1
@@ -14,7 +15,9 @@ class ApplicationsController < ApplicationController
 
   # GET /applications/new
   def new
+    @baseline = Baseline.find params[:baseline_id]
     @application = Application.new
+    @application.baseline = @baseline
   end
 
   # GET /applications/1/edit
@@ -56,7 +59,7 @@ class ApplicationsController < ApplicationController
   def destroy
     @application.destroy
     respond_to do |format|
-      format.html { redirect_to applications_url, notice: 'Application was successfully destroyed.' }
+      format.html { redirect_to baseline_applications_path(@application.baseline), notice: 'Application was successfully destroyed.' }
       format.json { head :no_content }
     end
   end

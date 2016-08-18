@@ -3,4 +3,4 @@
 <%= render 'form', application: @application %>
 
 <%= link_to 'Show', @application %> |
-<%= link_to 'Back', applications_path %>
+<%= link_to 'Back', baseline_applications_path(@application.baseline) %>
