@@ -54,13 +54,13 @@
             <%= f.text_field :msg_id %>
           </div>
 
-          <% if @baseline == nil %>
+          <% if baseline == nil %>
               <div class="field">
                 <%= f.label :baseline_id %>
                 <%= f.select :baseline_id, Baseline.all.collect {|b| [ b.name, b.id ] } %>
               </div>
           <% else %>
-              <%= f.hidden_field :baseline_id, value: @baseline.id %>
+              <%= f.hidden_field :baseline_id, value: baseline.id %>
           <% end %>
         </div>
 
@@ -84,7 +84,10 @@
             </div>
 
             <div class="panel-body">
-                  <select id="producers-select" multiple="multiple" class="selectwidthauto"></select>
+              <%= f.select :producer_ids,
+                options_from_collection_for_select(baseline.applications, :id, :name, message.producer_ids),
+                {},
+                { multiple: "multiple", class: "selectwidthauto form-control" } %>
             </div>
           </div>
         </div>
@@ -102,7 +105,10 @@
             </div>
 
             <div class="panel-body">
-                  <select id="consumers-select" multiple="multiple" class="selectwidthauto"></select>
+              <%= f.select :consumer_ids,
+                options_from_collection_for_select(baseline.applications, :id, :name, message.consumer_ids),
+                {},
+                { multiple: "multiple", class: "selectwidthauto form-control" } %>
             </div>
           </div>
         </div>
