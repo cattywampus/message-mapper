@@ -1,5 +1,6 @@
 class MessagesController < ApplicationController
   before_action :set_message, only: [:show, :edit, :update, :destroy]
+  before_action :load_baseline, only: [:new, :edit]
 
   # GET /messages
   # GET /messages.json
@@ -15,12 +16,6 @@ class MessagesController < ApplicationController
   # GET /messages/new
   def new
     @message = Message.new
-
-    begin
-      @baseline = Baseline.find(params[:baseline])
-    rescue ActiveRecord::RecordNotFound
-      @baseline = nil
-    end
   end
 
   # GET /messages/1/edit
@@ -68,6 +63,9 @@ class MessagesController < ApplicationController
   end
 
   private
+    def load_baseline
+      @baseline = Baseline.find(params[:baseline]) if params[:baseline]
+    end
     # Use callbacks to share common setup or constraints between actions.
     def set_message
       @message = Message.find(params[:id])
@@ -75,6 +73,15 @@ class MessagesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def message_params
-      params.require(:message).permit(:msg_id, :description, :baseline_id)
+      params.require(:message).permit(
+        :msg_id,
+        :description,
+        :baseline_id,
+        :name,
+        {
+          producer_ids: [],
+          consumer_ids: []
+        }
+      )
     end
 end
