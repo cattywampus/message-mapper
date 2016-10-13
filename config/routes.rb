@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
-  resources :applications, only: [:show, :edit, :update, :destroy]
+  #resources :applications, only: [:show, :edit, :update, :destroy]
   resources :messages
 
   resources :baselines do
-    resources :applications, only: [:index, :new, :create]
+    resources :applications
   end
 
   resources :products
