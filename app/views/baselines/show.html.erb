@@ -36,7 +36,7 @@
           <tr>
             <td><%= message.msg_id %></td>
             <td><%= message.description %></td>
-            <td><%= link_to 'Show', message %></td>
+            <td><%= link_to 'Show', message_path(message, baseline: @baseline.to_param) %></td>
             <td><%= link_to 'Edit', edit_message_path(message, baseline: @baseline.to_param) %></td>
             <td><%= link_to 'Destroy', message, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
