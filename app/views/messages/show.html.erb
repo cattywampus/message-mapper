@@ -30,5 +30,45 @@
   <% end %>
 </p>
 
+<div id="msg-graph"></div>
+
 <%= link_to 'Edit', edit_message_path(@message) %> |
 <%= link_to 'Back', messages_path %>
+
+<script>
+    var nodes = [
+        <% @message.producers.each_with_index do |p, i| %>
+            { id: <%= p.id %>, label: '<%= p.name %>' },
+        <% end %>
+
+        <% @message.consumers.each_with_index do |c, i| %>
+            { id: <%= c.id %>, label: '<%= c.name %>' },
+        <% end %>
+        { id: -1, label: 'popme' }
+    ];
+    nodes.pop();
+
+    var edges = [
+        <% @message.producers.each_with_index do |p, pi| %>
+            <% @message.consumers.each_with_index do |c, ci| %>
+              { from: <%= p.id %>, to: <%= c.id %>,
+                label: '<%= @message.msg_id %>', arrows: 'to'
+              },
+            <% end %>
+        <% end %>
+        { from: 'pop', to: 'me' }
+    ];
+    edges.pop();
+
+    var container = document.getElementById('msg-graph');
+
+    var data = {
+        nodes: nodes,
+        edges: edges
+    };
+
+    var options = {};
+
+    var msgGraph = new vis.Network(container, data, options);
+    
+</script>
